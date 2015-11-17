@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Welcome to RPG Character Creator!</h1>
+    <p class="lead">Here you can design your own RPG character, based loosely on S.P.E.C.I.A.L. system.</p>
+    <p>@Html.ActionLink("Take me there!", "Create", "Character", null, new { @class="btn btn-lg btn-primary"})</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Register</h2>
+        <p>
+            Register your account to design some characters!
+        </p>
+        <p>@Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Already registered?</h2>
+        <p>Login to create a character ro view existing</p>
+        <p>@Html.ActionLink("Login", "Login", "Account", null, new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-4">
+        <h2>What's going on?</h2>
+        <p>Check our "About" page to learn what to do.</p>
+        <p>@Html.ActionLink("About", "About", "Account", null, new { @class = "btn btn-default" })</p>
+    </div>
+</div>
