@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace RPGCharacterCreator.Models
 {
@@ -16,6 +18,13 @@ namespace RPGCharacterCreator.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public ApplicationUser()
+        {
+            this.Characters = new HashSet<Character>();
+        }
+
+        public virtual ICollection<Character> Characters { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -29,5 +38,20 @@ namespace RPGCharacterCreator.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Character> Characters { get; set; }
+        public DbSet<Skill> Skils { get; set; }
+        public DbSet<CharacterSkill> CharacterSkill { get; set; }
+        public DbSet<ApplicationUser> User { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+
+        }
     }
+
 }

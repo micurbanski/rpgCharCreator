@@ -7,9 +7,17 @@ using System.Web.Mvc;
 
 namespace RPGCharacterCreator.Models
 {
-    [Authorize]
     public class Character
     {
+        public Character()
+        {
+            MaxPoints = 15;
+            ClassChoices = new SelectList(new string[] { "Mage", "Knight", "Rouge" });
+            ClassChoice = ClassChoices.Skip(1).First().ToString();
+
+            this.CharacterSkill = new HashSet<CharacterSkill>();
+        }
+        
         public int Id { get; set; }
         
         [Required]
@@ -17,9 +25,10 @@ namespace RPGCharacterCreator.Models
         [StringLength(60)]
         public string Name { get; set; }
 
+        [Required]
+        [Display(Name="Class Choice")]
         public string ClassChoice { get; set; }
         
-        //[Required]
         public SelectList ClassChoices { get; set; }
         
         [Required]
@@ -37,14 +46,14 @@ namespace RPGCharacterCreator.Models
         [Range(0, 10, ErrorMessage = "Incorrect value")]
         public int AgilityPoints { get; set; }
 
+        [HiddenInput]
         public int MaxPoints { get; set; }
 
-        public Character()
-        {
-            MaxPoints = 15;
-            ClassChoices = new SelectList(new string[] { "Mage", "Knight", "Rouge" });
-        }
 
+        public int UserId { get; set; }
 
+        public virtual ICollection<CharacterSkill> CharacterSkill { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
     }
 }
