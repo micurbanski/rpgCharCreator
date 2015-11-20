@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RPGCharacterCreator.Models
 {
-    public class CharacterSkill
+    public class Character_Skill
     {
         public int Id { get; set; }
         public int SkillId { get; set; }

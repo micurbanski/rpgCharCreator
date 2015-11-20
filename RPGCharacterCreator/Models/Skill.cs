@@ -11,9 +11,9 @@ namespace RPGCharacterCreator.Models
     {
         public Skill()
         {
-            ClassRequiredChoices = new SelectList(new string[] { "Mage", "Knight", "Rouge" });
-            SkillTypeChoices = new SelectList(new string[] { "Offensive", "Defensive", "Neutral" });
-            this.CharacterSkill = new HashSet<CharacterSkill>();
+            //ClassRequiredChoices = new SelectList(new string[] { "Mage", "Knight", "Rouge" });
+            //SkillTypeChoices = new SelectList(new string[] { "Offensive", "Defensive", "Neutral" });
+            this.CharacterSkill = new HashSet<Character_Skill>();
         }
 
         [Key]
@@ -28,19 +28,19 @@ namespace RPGCharacterCreator.Models
         [Display(Name = "Class Required")]
         public string ClassRequired { get; set; }
 
-        public SelectList ClassRequiredChoices { get; set; }
+        //public SelectList ClassRequiredChoices { get; set; }
 
         [Required]
         [Display(Name= "Skill Type")]
         public string SkillType { get; set; }
 
-        public SelectList SkillTypeChoices { get; set; }
+        //public SelectList SkillTypeChoices { get; set; }
 
         [Required]
         [Display(Name= "Skill Level")]
         [Range(1,3, ErrorMessage="Out of skill level")]
         public int SkillLevel { get; set; }
 
-        public ICollection<CharacterSkill> CharacterSkill { get; set; }
+        public ICollection<Character_Skill> CharacterSkill { get; set; }
     }
 }

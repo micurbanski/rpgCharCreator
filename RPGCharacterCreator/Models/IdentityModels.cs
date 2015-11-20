@@ -24,13 +24,13 @@ namespace RPGCharacterCreator.Models
             this.Characters = new HashSet<Character>();
         }
 
-        public virtual ICollection<Character> Characters { get; set; }
+        public virtual ICollection<Character> Characters { get; private set; }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("DefaultConnection")
         {
         }
 
@@ -41,7 +41,7 @@ namespace RPGCharacterCreator.Models
 
         public DbSet<Character> Characters { get; set; }
         public DbSet<Skill> Skils { get; set; }
-        public DbSet<CharacterSkill> CharacterSkill { get; set; }
+        public DbSet<Character_Skill> CharacterSkill { get; set; }
         public DbSet<ApplicationUser> User { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -50,7 +50,7 @@ namespace RPGCharacterCreator.Models
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
-
+            modelBuilder.Entity<Character>().HasRequired(x => x.User).WithMany(x => x.Characters).HasForeignKey(x => x.UserId).WillCascadeOnDelete(true);
         }
     }
 

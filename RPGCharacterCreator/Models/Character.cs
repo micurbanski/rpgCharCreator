@@ -12,10 +12,10 @@ namespace RPGCharacterCreator.Models
         public Character()
         {
             MaxPoints = 15;
-            ClassChoices = new SelectList(new string[] { "Mage", "Knight", "Rouge" });
-            ClassChoice = ClassChoices.Skip(1).First().ToString();
+            //ClassChoices = new SelectList(new string[] { "Mage", "Knight", "Rouge" });
+            //ClassChoice = ClassChoices.Skip(1).First().ToString();
 
-            this.CharacterSkill = new HashSet<CharacterSkill>();
+            this.CharacterSkill = new HashSet<Character_Skill>();
         }
         
         public int Id { get; set; }
@@ -29,7 +29,7 @@ namespace RPGCharacterCreator.Models
         [Display(Name="Class Choice")]
         public string ClassChoice { get; set; }
         
-        public SelectList ClassChoices { get; set; }
+        //public SelectList ClassChoices { get; set; }
         
         [Required]
         [Display(Name="Strength")]
@@ -49,10 +49,10 @@ namespace RPGCharacterCreator.Models
         [HiddenInput]
         public int MaxPoints { get; set; }
 
+        [Required]
+        public string UserId { get; set; }
 
-        public int UserId { get; set; }
-
-        public virtual ICollection<CharacterSkill> CharacterSkill { get; set; }
+        public virtual ICollection<Character_Skill> CharacterSkill { get; set; }
 
         public virtual ApplicationUser User { get; set; }
     }
