@@ -3,7 +3,7 @@ namespace RPGCharacterCreator.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -14,9 +14,6 @@ namespace RPGCharacterCreator.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 60),
                         ClassChoice = c.String(nullable: false),
-                        ClassChoices_DataGroupField = c.String(),
-                        ClassChoices_DataTextField = c.String(),
-                        ClassChoices_DataValueField = c.String(),
                         StrengthPoints = c.Int(nullable: false),
                         IntelligencePoints = c.Int(nullable: false),
                         AgilityPoints = c.Int(nullable: false),
@@ -48,13 +45,7 @@ namespace RPGCharacterCreator.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         SkillName = c.String(nullable: false),
                         ClassRequired = c.String(nullable: false),
-                        ClassRequiredChoices_DataGroupField = c.String(),
-                        ClassRequiredChoices_DataTextField = c.String(),
-                        ClassRequiredChoices_DataValueField = c.String(),
                         SkillType = c.String(nullable: false),
-                        SkillTypeChoices_DataGroupField = c.String(),
-                        SkillTypeChoices_DataTextField = c.String(),
-                        SkillTypeChoices_DataValueField = c.String(),
                         SkillLevel = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
