@@ -8,20 +8,20 @@ using System.Web;
 using System.Web.Mvc;
 using RPGCharacterCreator.Models;
 using System.Diagnostics;
+using RPGCharacterCreator.Services;
 
 namespace RPGCharacterCreator.Controllers
 {
     [Authorize]
     public class CharacterController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
+        //private ApplicationDbContext db = new ApplicationDbContext();
+        CharacterService characterService = new CharacterService();
         // GET: Character
         public ActionResult Index()
         {
-            db.Database.Log = message => Trace.WriteLine(message);
-            var characters = db.Characters.AsNoTracking();
-            return View(characters.ToList());
+            var characters = characterService.GetCharacters();
+            return View(characters);
         }
 
         // GET: Character/Details/5
