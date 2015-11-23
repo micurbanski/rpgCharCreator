@@ -21,10 +21,10 @@ namespace RPGCharacterCreator.Migrations
         {
             //  This method will be called after migrating to the latest version.
 
-            if (System.Diagnostics.Debugger.IsAttached == false)
-            {
-                System.Diagnostics.Debugger.Launch();
-            }
+            //if (System.Diagnostics.Debugger.IsAttached == false)
+            //{
+            //    System.Diagnostics.Debugger.Launch();
+            //}
 
             SeedRoles(context);
             SeedUsers(context);

@@ -24,14 +24,14 @@ namespace RPGCharacterCreator.Controllers
             return View(characters);
         }
 
-        // GET: Character/Details/5
+        //// GET: Character/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Character character = db.Characters.Find(id);
+            Character character = characterService.GetCharacterById((int)id);
             if (character == null)
             {
                 return HttpNotFound();
@@ -42,94 +42,107 @@ namespace RPGCharacterCreator.Controllers
         // GET: Character/Create
         public ActionResult Create()
         {
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Email");
-            return View();
+            //ViewBag.UserId = new SelectList(db.Users, "Id", "Email"); NO USER LIST
+            return View(new Character());
         }
 
         // POST: Character/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,ClassChoice,StrengthPoints,IntelligencePoints,AgilityPoints,MaxPoints,UserId")] Character character)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Characters.Add(character);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "Id,Name,ClassChoice,StrengthPoints,IntelligencePoints,AgilityPoints,MaxPoints,UserId")] Character character)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Characters.Add(character);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
 
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Email", character.UserId);
-            return View(character);
-        }
+        //    ViewBag.UserId = new SelectList(db.Users, "Id", "Email", character.UserId);
+        //    return View(character);
+        //}
 
-        // GET: Character/Edit/5
-        public ActionResult Edit(int? id)
+            //// GET: Character/Edit/5
+            //public ActionResult Edit(int? id)
+            //{
+            //    if (id == null)
+            //    {
+            //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //    }
+            //    Character character = db.Characters.Find(id);
+            //    if (character == null)
+            //    {
+            //        return HttpNotFound();
+            //    }
+            //    ViewBag.UserId = new SelectList(db.Users, "Id", "Email", character.UserId);
+            //    return View(character);
+            //}
+
+            //// POST: Character/Edit/5
+            //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+            //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+            //[HttpPost]
+            //[ValidateAntiForgeryToken]
+            //public ActionResult Edit([Bind(Include = "Id,Name,ClassChoice,StrengthPoints,IntelligencePoints,AgilityPoints,MaxPoints,UserId")] Character character)
+            //{
+            //    if (ModelState.IsValid)
+            //    {
+            //        db.Entry(character).State = EntityState.Modified;
+            //        db.SaveChanges();
+            //        return RedirectToAction("Index");
+            //    }
+            //    ViewBag.UserId = new SelectList(db.Users, "Id", "Email", character.UserId);
+            //    return View(character);
+            //}
+
+            //// GET: Character/Delete/5
+        public ActionResult Delete(int? id, bool? error)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Character character = db.Characters.Find(id);
+
+            Character character = characterService.GetCharacterById((int)id);
             if (character == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Email", character.UserId);
-            return View(character);
-        }
 
-        // POST: Character/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,ClassChoice,StrengthPoints,IntelligencePoints,AgilityPoints,MaxPoints,UserId")] Character character)
-        {
-            if (ModelState.IsValid)
+            if (error != null)
             {
-                db.Entry(character).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Email", character.UserId);
-            return View(character);
-        }
-
-        // GET: Character/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Character character = db.Characters.Find(id);
-            if (character == null)
-            {
-                return HttpNotFound();
+                ViewBag.Error = true;
             }
             return View(character);
         }
 
-        // POST: Character/Delete/5
+        //// POST: Character/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Character character = db.Characters.Find(id);
-            db.Characters.Remove(character);
-            db.SaveChanges();
+            try
+            {
+                characterService.DeleteCharacter(id);
+            }
+            catch
+            {
+
+                return RedirectToAction("Delete", new {id = id, error = true });
+            }
+
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }
