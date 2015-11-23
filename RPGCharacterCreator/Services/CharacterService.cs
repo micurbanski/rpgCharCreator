@@ -1,25 +1,34 @@
 ﻿using RPGCharacterCreator.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace RPGCharacterCreator.Services
 {
-    public class CharacterService
+    public class CharacterService: ICharacterService
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly IApplicationDbContext _db;
+        public CharacterService(IApplicationDbContext db)
+        {
+            _db = db;
+        }
+
 
         public IQueryable<Character> GetCharacters()
         {
-            db.Database.Log = message => Trace.WriteLine(message);
-            return db.Characters.AsNoTracking();
+            _db.Database.Log = message => Trace.WriteLine(message);
+            return _db.Characters.AsNoTracking();
         }
 
         public Character GetCharacterById(int id)
         {
-            Character character = db.Characters.Find(id);
+            Character character = _db.Characters.Find(id);
             return character;
         }
 
@@ -27,11 +36,11 @@ namespace RPGCharacterCreator.Services
         {
             DeleteCharaterConstraints(id);
 
-            Character character = db.Characters.Find(id);
-            db.Characters.Remove(character);
+            Character character = _db.Characters.Find(id);
+            _db.Characters.Remove(character);
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
                 return true;
             }
             catch (Exception ex)
@@ -43,12 +52,27 @@ namespace RPGCharacterCreator.Services
 
         private void DeleteCharaterConstraints(int idCharacter)
         {
-            var list = db.CharacterSkill.Where(o => o.CharacterId == idCharacter);
+            var list = _db.CharacterSkill.Where(o => o.CharacterId == idCharacter);
 
             foreach (var element in list)
             {
-                db.CharacterSkill.Remove(element);
+                _db.CharacterSkill.Remove(element);
             }
+        }
+
+        public void AddCharacter(Character character)
+        {
+            _db.Characters.Add(character);
+        }
+
+        public void UpdateCharacter(Character character)
+        {
+            _db.Entry(character).State = EntityState.Modified;
+        }
+
+        public void SaveChanges()
+        {
+            _db.SaveChanges();
         }
     }
 }

@@ -58,7 +58,7 @@
 
         <div class="form-group">
             @*@Html.LabelFor(model => model.MaxPoints, htmlAttributes: new { @class = "control-label col-md-2" })*@
-            <div class="col-md-10">
+            <div class="col-md-8 col-md-offset-2">
                 <span class="lead" data-bind="text:pointsRemaining"></span> <text class="lead">Points Remaining</text>
                 <!-- ko if: (pointsRemaining()<=0) -->
                 <span class="alert alert-danger">Mind the points!</span>
@@ -83,7 +83,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", null, new { @class="btn btn-primary" })
 </div>
 
 @section Scripts {

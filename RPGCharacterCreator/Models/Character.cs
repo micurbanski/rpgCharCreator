@@ -48,7 +48,6 @@ namespace RPGCharacterCreator.Models
         [HiddenInput]
         public int MaxPoints { get; set; }
 
-        [Required]
         public string UserId { get; set; }
 
         public virtual ICollection<Character_Skill> CharacterSkill { get; set; }

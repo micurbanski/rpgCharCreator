@@ -42,6 +42,13 @@ namespace RPGCharacterCreator.Migrations
                 role.Name = "Admin";
                 roleManager.Create(role);
             }
+
+            if (!roleManager.RoleExists("User"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "User";
+                roleManager.Create(role);
+            }
         }
 
         private void SeedUsers(ApplicationDbContext context)
@@ -57,6 +64,17 @@ namespace RPGCharacterCreator.Migrations
                 if (adminResult.Succeeded)
                 {
                     manager.AddToRole(user.Id, "Admin");
+                }
+            }
+
+            if (!context.Users.Any(u => u.UserName == "TestUser"))
+            {
+                var user = new ApplicationUser { UserName = "TestUser" };
+                var adminResult = manager.Create(user, "R$e3w2q1");
+
+                if (adminResult.Succeeded)
+                {
+                    manager.AddToRole(user.Id, "User");
                 }
             }
 

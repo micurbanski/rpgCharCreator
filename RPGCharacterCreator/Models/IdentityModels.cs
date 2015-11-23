@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using RPGCharacterCreator.Services;
 
 namespace RPGCharacterCreator.Models
 {
@@ -27,7 +28,7 @@ namespace RPGCharacterCreator.Models
         public virtual ICollection<Character> Characters { get; private set; }
     }
 
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext, IApplicationDbContext
     {
         public ApplicationDbContext()
             : base("DefaultConnection")

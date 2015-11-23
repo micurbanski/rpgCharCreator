@@ -4,7 +4,13 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edit Character</h2>
+@if (ViewBag.Error == true)
+{
+    <div class="alert alert-danger" role="alert">
+        There was an error <br /> Try Again,
+    </div>
+}
 
 
 @using (Html.BeginForm())
@@ -12,7 +18,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Character</h4>
+        <h4>Character:</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -28,15 +34,17 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ClassChoice, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ClassChoice, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.EditorFor(model => model.ClassChoice, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.DropDownListFor(model => model.ClassChoice, Model.ClassChoices, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ClassChoice, "", new { @class = "text-danger" })
             </div>
         </div>
 
+
         <div class="form-group">
             @Html.LabelFor(model => model.StrengthPoints, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StrengthPoints, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.StrengthPoints, new { htmlAttributes = new { @class = "form-control", data_bind = "value:strPoints" } })
                 @Html.ValidationMessageFor(model => model.StrengthPoints, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -44,7 +52,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IntelligencePoints, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.IntelligencePoints, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.IntelligencePoints, new { htmlAttributes = new { @class = "form-control", data_bind = "value:intPoints" } })
                 @Html.ValidationMessageFor(model => model.IntelligencePoints, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -52,39 +60,64 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AgilityPoints, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.AgilityPoints, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.AgilityPoints, new { htmlAttributes = new { @class = "form-control", data_bind = "value:aglPoints" } })
                 @Html.ValidationMessageFor(model => model.AgilityPoints, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MaxPoints, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MaxPoints, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MaxPoints, "", new { @class = "text-danger" })
+            @*@Html.LabelFor(model => model.MaxPoints, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="col-md-8 col-md-offset-2">
+                <span class="lead" data-bind="text:pointsRemaining"></span> <text class="lead">Points Remaining</text>
+                <!-- ko if: (pointsRemaining()<=0) -->
+                <span class="alert alert-danger">Mind the points!</span>
+                <!-- /ko -->
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", null, new { @class= "btn btn-primary" })
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/knockout-3.3.0.js"></script>
+
+<script>
+        function CreateViewModel() {
+            var self = this;
+            self.strPoints = ko.observable(@Model.StrengthPoints);
+            self.intPoints = ko.observable(@Model.IntelligencePoints);
+            self.aglPoints = ko.observable(@Model.AgilityPoints);
+
+
+
+            self.pointsRemaining = ko.computed(function () {
+                var points = @Model.MaxPoints -(parseInt(self.strPoints()) + parseInt(self.intPoints()) + parseInt(self.aglPoints()))
+                if (points <=0 ) {
+                    return 0;
+                } else {
+                    return points;
+                }
+                return @Model.MaxPoints -(parseInt(self.strPoints()) + parseInt(self.intPoints()) + parseInt(self.aglPoints()));
+            }, self);
+        }
+        ko.applyBindings(CreateViewModel)
+</script>
 }
