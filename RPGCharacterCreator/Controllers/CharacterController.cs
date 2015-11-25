@@ -64,7 +64,7 @@ namespace RPGCharacterCreator.Controllers
                 {
                     characterService.AddCharacter(character);
                     characterService.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("MyCharacter");
                 }
                 catch
                 {
@@ -165,10 +165,27 @@ namespace RPGCharacterCreator.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Partial()
+        public ActionResult Partial(int? page)
         {
+            int currentPage = page ?? 1;
+            int onPage = 20;
             var characters = characterService.GetCharacters();
-            return PartialView("Index", characters);
+            characters = characters.OrderByDescending(d => d.CreationDate);
+
+            return PartialView("Index",characters.ToPagedList<Character>(currentPage, onPage));
+        }
+
+        [OutputCache(Duration = 1000)]
+        public ActionResult MyCharacter(int? page)
+        {
+            int currentPage = page ?? 1;
+            int onPage = 5;
+
+            var characters = characterService.GetCharacters();
+            characters = characters.OrderByDescending(d => d.CreationDate)
+                .Where(o => o.UserId == User.Identity.GetUserId());
+
+            return View("MyCharacter", characters.ToPagedList<Character>(currentPage, onPage));
         }
 
         //protected override void Dispose(bool disposing)
