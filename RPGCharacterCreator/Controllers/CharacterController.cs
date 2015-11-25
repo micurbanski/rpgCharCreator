@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
+﻿using System.Net;
 using System.Web.Mvc;
 using RPGCharacterCreator.Models;
-using System.Diagnostics;
 using RPGCharacterCreator.Services;
 using Microsoft.AspNet.Identity;
 
@@ -132,6 +125,10 @@ namespace RPGCharacterCreator.Controllers
             if (character == null)
             {
                 return HttpNotFound();
+            }
+            else if (character.UserId != User.Identity.GetUserId() && User.IsInRole("Admin"))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             if (error != null)

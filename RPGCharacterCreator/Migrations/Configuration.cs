@@ -2,10 +2,9 @@ namespace RPGCharacterCreator.Migrations
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using RPGCharacterCreator.Models;
+    using Models;
     using System;
     using System.Collections.Generic;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
@@ -56,9 +55,9 @@ namespace RPGCharacterCreator.Migrations
             var store = new UserStore<ApplicationUser>(context);
             var manager = new UserManager<ApplicationUser>(store);
 
-            if (!context.Users.Any(u => u.UserName == "Admin"))
+            if (!context.Users.Any(u => u.UserName == "Admin@rpgcreator.com"))
             {
-                var user = new ApplicationUser { UserName = "Admin" };
+                var user = new ApplicationUser { UserName = "Admin@rpgcreator.com" };
                 var adminResult = manager.Create(user, "Q!w2e3r4");
 
                 if (adminResult.Succeeded)
@@ -67,9 +66,9 @@ namespace RPGCharacterCreator.Migrations
                 }
             }
 
-            if (!context.Users.Any(u => u.UserName == "TestUser"))
+            if (!context.Users.Any(u => u.UserName == "TestUser@rpgcreator.com"))
             {
-                var user = new ApplicationUser { UserName = "TestUser" };
+                var user = new ApplicationUser { UserName = "TestUser@rpgcreator.com" };
                 var adminResult = manager.Create(user, "R$e3w2q1");
 
                 if (adminResult.Succeeded)
