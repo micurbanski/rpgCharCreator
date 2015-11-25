@@ -28,7 +28,7 @@ namespace RPGCharacterCreator.Models
         public virtual ICollection<Character> Characters { get; private set; }
     }
 
-    public class ApplicationDbContext : IdentityDbContext, IApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext()
             : base("DefaultConnection")

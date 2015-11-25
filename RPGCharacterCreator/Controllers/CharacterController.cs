@@ -17,16 +17,12 @@ namespace RPGCharacterCreator.Controllers
     public class CharacterController : Controller
     {
 
-        private readonly ICharacterService _characterService;
-        public CharacterController(ICharacterService characterService)
-        {
-            _characterService = characterService;
-        }
+        CharacterService characterService = new CharacterService();
         
         // GET: Character
         public ActionResult Index()
         {
-            var characters = _characterService.GetCharacters();
+            var characters = characterService.GetCharacters();
             return View(characters);
         }
 
@@ -37,7 +33,7 @@ namespace RPGCharacterCreator.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Character character = _characterService.GetCharacterById((int)id);
+            Character character = characterService.GetCharacterById((int)id);
             if (character == null)
             {
                 return HttpNotFound();
@@ -65,8 +61,8 @@ namespace RPGCharacterCreator.Controllers
                 character.UserId = User.Identity.GetUserId();
                 try
                 {
-                    _characterService.AddCharacter(character);
-                    _characterService.SaveChanges();
+                    characterService.AddCharacter(character);
+                    characterService.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 catch
@@ -86,7 +82,7 @@ namespace RPGCharacterCreator.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Character character = _characterService.GetCharacterById((int)id);
+            Character character = characterService.GetCharacterById((int)id);
             if (character == null)
             {
                 return HttpNotFound();
@@ -110,8 +106,8 @@ namespace RPGCharacterCreator.Controllers
             {
                 try
                 {
-                    _characterService.UpdateCharacter(character);
-                    _characterService.SaveChanges();
+                    characterService.UpdateCharacter(character);
+                    characterService.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 catch
@@ -132,7 +128,7 @@ namespace RPGCharacterCreator.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Character character = _characterService.GetCharacterById((int)id);
+            Character character = characterService.GetCharacterById((int)id);
             if (character == null)
             {
                 return HttpNotFound();
@@ -150,10 +146,10 @@ namespace RPGCharacterCreator.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-                _characterService.DeleteCharacter(id);
+                characterService.DeleteCharacter(id);
             try
             {
-                _characterService.SaveChanges();
+                characterService.SaveChanges();
             }
             catch
             {
@@ -166,7 +162,7 @@ namespace RPGCharacterCreator.Controllers
 
         public ActionResult Partial()
         {
-            var characters = _characterService.GetCharacters();
+            var characters = characterService.GetCharacters();
             return PartialView("Index", characters);
         }
 

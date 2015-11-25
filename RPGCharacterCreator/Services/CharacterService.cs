@@ -11,24 +11,20 @@ using System.Web;
 
 namespace RPGCharacterCreator.Services
 {
-    public class CharacterService: ICharacterService
+    public class CharacterService
     {
-        private readonly IApplicationDbContext _db;
-        public CharacterService(IApplicationDbContext db)
-        {
-            _db = db;
-        }
+        private ApplicationDbContext db = new ApplicationDbContext();
 
 
         public IQueryable<Character> GetCharacters()
         {
-            _db.Database.Log = message => Trace.WriteLine(message);
-            return _db.Characters.AsNoTracking();
+            db.Database.Log = message => Trace.WriteLine(message);
+            return db.Characters.AsNoTracking();
         }
 
         public Character GetCharacterById(int id)
         {
-            Character character = _db.Characters.Find(id);
+            Character character = db.Characters.Find(id);
             return character;
         }
 
@@ -36,14 +32,14 @@ namespace RPGCharacterCreator.Services
         {
             DeleteCharaterConstraints(id);
 
-            Character character = _db.Characters.Find(id);
-            _db.Characters.Remove(character);
+            Character character = db.Characters.Find(id);
+            db.Characters.Remove(character);
             try
             {
-                _db.SaveChanges();
+                db.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
 
                 return false;
@@ -52,27 +48,27 @@ namespace RPGCharacterCreator.Services
 
         private void DeleteCharaterConstraints(int idCharacter)
         {
-            var list = _db.CharacterSkill.Where(o => o.CharacterId == idCharacter);
+            var list = db.CharacterSkill.Where(o => o.CharacterId == idCharacter);
 
             foreach (var element in list)
             {
-                _db.CharacterSkill.Remove(element);
+                db.CharacterSkill.Remove(element);
             }
         }
 
         public void AddCharacter(Character character)
         {
-            _db.Characters.Add(character);
+            db.Characters.Add(character);
         }
 
         public void UpdateCharacter(Character character)
         {
-            _db.Entry(character).State = EntityState.Modified;
+            db.Entry(character).State = EntityState.Modified;
         }
 
         public void SaveChanges()
         {
-            _db.SaveChanges();
+            db.SaveChanges();
         }
     }
 }
