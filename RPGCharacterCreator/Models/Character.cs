@@ -42,6 +42,11 @@ namespace RPGCharacterCreator.Models
         [Range(0, 10, ErrorMessage = "Incorrect value")]
         public int AgilityPoints { get; set; }
 
+        [Display(Name="Creation Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString ="{0:yyyy-MM-dd}", ApplyFormatInEditMode =true)]
+        public System.DateTime? CreationDate { get; set; }
+
         [HiddenInput]
         public int MaxPoints { get; set; }
 

@@ -99,10 +99,11 @@ namespace RPGCharacterCreator.Migrations
                     UserId = idUser,
                     Name = "Name" + i.ToString(),
 
-                    ClassChoice = classList.ElementAt(r.Next(0,3)),
+                    ClassChoice = classList.ElementAt(r.Next(0, 3)),
                     StrengthPoints = r.Next(1, 5),
                     IntelligencePoints = r.Next(1, 5),
-                    AgilityPoints = r.Next(1, 5)
+                    AgilityPoints = r.Next(1, 5),
+                    CreationDate = DateTime.Now.AddDays(-i)
                 };
                 context.Set<Character>().AddOrUpdate(seededCharacter);
             }

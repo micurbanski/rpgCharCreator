@@ -3,6 +3,8 @@ using System.Web.Mvc;
 using RPGCharacterCreator.Models;
 using RPGCharacterCreator.Services;
 using Microsoft.AspNet.Identity;
+using System.Linq;
+using PagedList;
 
 namespace RPGCharacterCreator.Controllers
 {
@@ -13,10 +15,15 @@ namespace RPGCharacterCreator.Controllers
         CharacterService characterService = new CharacterService();
         
         // GET: Character
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
+            int currentPage = page ?? 1;
+            int onPage = 5;
             var characters = characterService.GetCharacters();
-            return View(characters);
+            //var characters = characterService.GetCharacters();
+            characters = characters.OrderByDescending(o => o.CreationDate);
+
+            return View(characters.ToPagedList<Character>(currentPage, onPage));
         }
 
         //// GET: Character/Details/5
@@ -52,6 +59,7 @@ namespace RPGCharacterCreator.Controllers
             if (ModelState.IsValid)
             {
                 character.UserId = User.Identity.GetUserId();
+                character.CreationDate = System.DateTime.Now;
                 try
                 {
                     characterService.AddCharacter(character);
@@ -93,7 +101,7 @@ namespace RPGCharacterCreator.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,ClassChoice,StrengthPoints,IntelligencePoints,AgilityPoints,MaxPoints,UserId")] Character character)
+        public ActionResult Edit([Bind(Include = "Id,Name,ClassChoice,StrengthPoints,IntelligencePoints,AgilityPoints,MaxPoints,UserId,CreationDate")] Character character)
         {
             if (ModelState.IsValid)
             {
@@ -126,7 +134,7 @@ namespace RPGCharacterCreator.Controllers
             {
                 return HttpNotFound();
             }
-            else if (character.UserId != User.Identity.GetUserId() && User.IsInRole("Admin"))
+            else if (character.UserId != User.Identity.GetUserId() && !User.IsInRole("Admin"))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }

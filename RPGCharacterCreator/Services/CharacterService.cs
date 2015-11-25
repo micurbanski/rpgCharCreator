@@ -64,5 +64,14 @@ namespace RPGCharacterCreator.Services
         {
             db.SaveChanges();
         }
+
+        public IQueryable<Character> GetPage(int? page = 1, int? pageSize = 10)
+        {
+            var characters = db.Characters.OrderByDescending(o => o.CreationDate)
+                .Skip((page.Value - 1) * pageSize.Value)
+                .Take(pageSize.Value);
+
+            return characters;
+        }
     }
 }
