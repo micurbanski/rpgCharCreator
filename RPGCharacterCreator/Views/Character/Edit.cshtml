@@ -82,6 +82,7 @@
                 @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
             </div>
         </div>*@
+        @Html.HiddenFor(model => model.UserId)
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
