@@ -84,7 +84,7 @@ namespace RPGCharacterCreator.Migrations
         {
             Random r = new Random();
 
-            var idUser = context.Set<ApplicationUser>().Where(u => u.UserName == "Admin").FirstOrDefault().Id;
+            var idUser = context.Set<ApplicationUser>().Where(u => u.UserName == "admin@rpgcreator.com").FirstOrDefault().Id;
             
             var classList = new List<String>();
             classList.Add("Mage");
