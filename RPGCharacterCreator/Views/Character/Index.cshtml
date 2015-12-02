@@ -73,9 +73,11 @@
             @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
             {   
                 @:|
+                @Html.ActionLink("Add Skill", "AddSkill", new { id = item.Id }, new { @class = "btn btn-xs btn-primary" })
+                @:|
                 @Html.ActionLink("Edit", "Edit", new { id=item.Id }, new { @class="btn btn-xs btn-warning" }) 
                 @:|
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-xs btn-danger" })  
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-xs btn-danger" })
             }
         </td>
     </tr>

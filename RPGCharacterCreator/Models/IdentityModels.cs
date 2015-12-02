@@ -41,7 +41,7 @@ namespace RPGCharacterCreator.Models
         }
 
         public DbSet<Character> Characters { get; set; }
-        public DbSet<Skill> Skils { get; set; }
+        public DbSet<Skill> Skills { get; set; }
         public DbSet<Character_Skill> CharacterSkill { get; set; }
         public DbSet<ApplicationUser> User { get; set; }
 

@@ -198,12 +198,13 @@
     <Compile Include="Controllers\CharacterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SkillController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201511261125472_Init.cs" />
-    <Compile Include="Migrations\201511261125472_Init.Designer.cs">
-      <DependentUpon>201511261125472_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201512021046317_init.cs" />
+    <Compile Include="Migrations\201512021046317_init.Designer.cs">
+      <DependentUpon>201512021046317_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CharacterService.cs" />
+    <Compile Include="Services\SkillService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -291,6 +293,11 @@
     <Content Include="Views\Character\Edit.cshtml" />
     <Content Include="Views\Character\Index.cshtml" />
     <Content Include="Views\Character\MyCharacter.cshtml" />
+    <Content Include="Views\Skill\Create.cshtml" />
+    <Content Include="Views\Skill\Delete.cshtml" />
+    <Content Include="Views\Skill\Details.cshtml" />
+    <Content Include="Views\Skill\Edit.cshtml" />
+    <Content Include="Views\Skill\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -301,8 +308,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201511261125472_Init.resx">
-      <DependentUpon>201511261125472_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201512021046317_init.resx">
+      <DependentUpon>201512021046317_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

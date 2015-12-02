@@ -146,7 +146,7 @@ namespace RPGCharacterCreator.Controllers
             return View(character);
         }
 
-        //// POST: Character/Delete/5
+        // POST: Character/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

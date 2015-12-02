@@ -11,8 +11,8 @@ namespace RPGCharacterCreator.Models
     {
         public Skill()
         {
-            //ClassRequiredChoices = new SelectList(new string[] { "Mage", "Knight", "Rouge" });
-            //SkillTypeChoices = new SelectList(new string[] { "Offensive", "Defensive", "Neutral" });
+            ClassRequiredChoices = new SelectList(new string[] { "Mage", "Knight", "Rouge" });
+            SkillTypeChoices = new SelectList(new string[] { "Offensive", "Defensive", "Neutral" });
             this.CharacterSkill = new HashSet<Character_Skill>();
         }
 
@@ -28,13 +28,13 @@ namespace RPGCharacterCreator.Models
         [Display(Name = "Class Required")]
         public string ClassRequired { get; set; }
 
-        //public SelectList ClassRequiredChoices { get; set; }
+        public IEnumerable<SelectListItem> ClassRequiredChoices { get; set; }
 
         [Required]
         [Display(Name= "Skill Type")]
         public string SkillType { get; set; }
 
-        //public SelectList SkillTypeChoices { get; set; }
+        public IEnumerable<SelectListItem> SkillTypeChoices { get; set; }
 
         [Required]
         [Display(Name= "Skill Level")]
